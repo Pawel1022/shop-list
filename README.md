@@ -24,7 +24,7 @@ The app supports emoji-based categories and clean, responsive design with custom
 
 ## 📸 Preview
 
-[Live Demo](https://your-vercel-or-github-pages-link.com)
+[Live Demo](https://shop-list-one.vercel.app/)
 
 ## 🧠 Learning Goals
 
