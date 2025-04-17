@@ -21,7 +21,7 @@ This project is inspired by Jonas Schmedtmann's course, but the code and structu
 
 ## 🚀 Live Demo
 
-🔗 [Try it now on Vercel](https://shop-list-pawel1022.vercel.app/)
+🔗 [Try it now on Vercel](https://shop-list-one.vercel.app/)
 
 ## 🧠 Tech Stack
 

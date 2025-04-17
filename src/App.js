@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Header } from './Header'
-import { AddProductForm } from './AddProductForm.1'
+import { AddProductForm } from './AddProductForm'
 import { Button } from './Button'
 import { ShopList } from './ShopList'
 import { Browser } from './Browser'
