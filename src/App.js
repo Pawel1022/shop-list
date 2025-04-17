@@ -1,38 +1,18 @@
 import { useState } from 'react'
 import { Header } from './Header'
-
-const initalProducts = [
-	{
-		id: 1,
-		name: 'Chips',
-		category: 'snacks',
-		quantity: 2,
-		emoji: '🍪',
-		bought: false,
-	},
-	{
-		id: 2,
-		name: 'Cola',
-		category: 'drinks',
-		quantity: 5,
-		emoji: '🥤',
-		bought: true,
-	},
-	{
-		id: 3,
-		name: 'Chicken',
-		category: 'meat',
-		quantity: 1,
-		emoji: '🥩',
-		bought: true,
-	},
-]
+import { AddProductForm } from './AddProductForm.1'
+import { Button } from './Button'
+import { ShopList } from './ShopList'
+import { Browser } from './Browser'
+import { Stats } from './Stats'
+import { initalProducts } from './initalProducts'
 
 export default function App() {
 	const [products, SetProducts] = useState(initalProducts)
 	const [formIsOpen, SetFormIsOpen] = useState(false)
 	const [editingProduct, SetEditingProduct] = useState(null)
-	const [filter, setFilter] = useState('all')
+	const [filter, SetFilter] = useState('all')
+	const [search, SetSearch] = useState('')
 
 	function toggleForm() {
 		SetFormIsOpen(!formIsOpen)
@@ -45,7 +25,7 @@ export default function App() {
 	}
 
 	function addProduct(productToAdd) {
-		SetProducts(products => [...products, productToAdd].map(product => product))
+		SetProducts(products => [...products, productToAdd])
 		toggleForm()
 	}
 
@@ -56,9 +36,7 @@ export default function App() {
 	}
 
 	function updateProduct(productToUpdate) {
-		SetProducts(products =>
-			[...products].map(product => (product.id === productToUpdate.id ? productToUpdate : product))
-		)
+		SetProducts(products => products.map(product => (product.id === productToUpdate.id ? productToUpdate : product)))
 	}
 
 	function clearList() {
@@ -70,7 +48,7 @@ export default function App() {
 			<Header> 🛒 SHOP LIST </Header>
 			<div className='control'>
 				<Button onClick={toggleForm}>{formIsOpen ? 'Close ❌' : 'Add new item ➕'}</Button>
-				<Browser onSetFilter={setFilter} />
+				<Browser onSetFilter={SetFilter} search={search} onSetSearch={SetSearch} />
 			</div>
 			{formIsOpen && (
 				<AddProductForm
@@ -88,187 +66,9 @@ export default function App() {
 				onSetEditingProduct={SetEditingProduct}
 				onToggleForm={toggleForm}
 				onFilter={filter}
+				onSearch={search}
 			/>
 			<Stats products={products} onClearList={clearList} />
 		</div>
-	)
-}
-
-function AddProductForm({ onAddProduct, editingProduct, onToggleForm, onUpdateProduct, onSetEditingProduct }) {
-	const [productName, SetProductName] = useState(editingProduct?.name || '')
-	const [productQuantity, SetProductQuantity] = useState(editingProduct?.quantity || 0)
-	const [productCategory, SetProductCategory] = useState(editingProduct?.category || 'vegetables')
-
-	const emojiMap = {
-		vegetables: '🥦',
-		fruits: '🍎',
-		meat: '🥩',
-		dairy: '🧀',
-		bakery: '🍞',
-		drinks: '🥤',
-		snacks: '🍪',
-		cleaning: '🧽',
-		other: '📦',
-	}
-
-	function submitForm() {
-		if (!productName || !productQuantity || !productCategory) return
-		const product = {
-			id: editingProduct ? editingProduct.id : crypto.randomUUID(),
-			name: productName,
-			category: productCategory,
-			quantity: productQuantity,
-			emoji: emojiMap[productCategory],
-			bought: editingProduct ? editingProduct.bought : false,
-		}
-		SetProductName('')
-		SetProductQuantity(0)
-		SetProductCategory('vegetables')
-
-		if (editingProduct) {
-			onUpdateProduct(product)
-		} else {
-			onAddProduct(product)
-		}
-
-		onToggleForm()
-	}
-
-	return (
-		<>
-			<form
-				onSubmit={e => {
-					e.preventDefault()
-					submitForm()
-					onSetEditingProduct(null)
-				}}>
-				<div>
-					<label>Product:</label>
-					<input type='text' value={productName} onChange={e => SetProductName(e.target.value)}></input>
-				</div>
-				<div>
-					<label>Quantity:</label>
-					<input
-						type='number'
-						min={0}
-						value={productQuantity}
-						onChange={e => SetProductQuantity(+e.target.value)}></input>
-				</div>
-				<div>
-					<label>Category:</label>
-					<select value={productCategory} onChange={e => SetProductCategory(e.target.value)}>
-						<option value='vegetables'>🥦 Vegetables</option>
-						<option value='fruits'>🍎 Fruits</option>
-						<option value='meat'>🥩 Meat</option>
-						<option value='dairy'>🧀 Dairy</option>
-						<option value='bakery'>🍞 Bakery</option>
-						<option value='drinks'>🥤 Drinks</option>
-						<option value='snacks'>🍪 Snacks</option>
-						<option value='cleaning'>🧽 Cleaning</option>
-						<option value='other'>📦 other</option>
-					</select>
-				</div>
-				<Button className='success'>{editingProduct ? 'Save 💾' : 'Add ✅'}</Button>
-			</form>
-		</>
-	)
-}
-
-function Button({ children, onClick, className }) {
-	return (
-		<button className={className} onClick={onClick}>
-			{children}
-		</button>
-	)
-}
-
-function ShopList({ products, onDeleteProduct, onToggleBought, onSetEditingProduct, onToggleForm, onFilter }) {
-	const sortedProducts =
-		onFilter === 'all'
-			? products
-			: onFilter === 'bought'
-			? products.filter(product => product.bought)
-			: products.filter(product => !product.bought)
-
-	return (
-		<div>
-			<ul>
-				{sortedProducts.map(product => (
-					<ProductItem
-						product={product}
-						onDeleteProduct={onDeleteProduct}
-						onToggleBought={onToggleBought}
-						onSetEditingProduct={onSetEditingProduct}
-						onToggleForm={onToggleForm}
-						key={product.id}
-					/>
-				))}
-			</ul>
-		</div>
-	)
-}
-
-function ProductItem({ product, onDeleteProduct, onToggleBought, onSetEditingProduct, onToggleForm }) {
-	return (
-		<li className={product.bought ? 'bought' : ''}>
-			<span>{product.emoji}</span>
-			<span>{product.name}</span>
-			<span>x{product.quantity}</span>
-			<input
-				type='checkbox'
-				onChange={() => {
-					onToggleBought(product.id)
-				}}
-				checked={product.bought}></input>
-			<Button onClick={() => onDeleteProduct(product)} className='danger'>
-				🗑️
-			</Button>
-			<Button
-				onClick={() => {
-					onSetEditingProduct(product)
-					onToggleForm()
-				}}>
-				✏️
-			</Button>
-		</li>
-	)
-}
-
-function Browser({ onSetFilter }) {
-	return (
-		<>
-			<div className='control'>
-				<h2>Find product 🔍</h2>
-				<input type='text' placeholder='🔍 Search...'></input>
-			</div>
-			<div className='control'>
-				<h2>Filter 📁</h2>
-				<select onChange={e => onSetFilter(e.target.value)}>
-					<option value='all'>All</option>
-					<option value='bought'>🛒 Bought</option>
-					<option value='tobuy'>💰 To buy</option>
-				</select>
-			</div>
-		</>
-	)
-}
-
-function Stats({ products, onClearList }) {
-	const numProducts = products.length
-	const numBoughtProducts = products.filter(product => product.bought === true).length
-
-	return (
-		<>
-			{numProducts > 0 && (
-				<div className='stats'>
-					<p>
-						✅ <span>{numBoughtProducts}</span>/<span>{numProducts}</span> items bought
-					</p>
-					<Button onClick={() => onClearList()} className='danger'>
-						🧹 Clear All
-					</Button>
-				</div>
-			)}
-		</>
 	)
 }
