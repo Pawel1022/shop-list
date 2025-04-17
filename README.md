@@ -1,46 +1,52 @@
-# 🛒 Shop List
+# 🛒 Shop List App
 
-A simple and interactive shopping list built with **React.js**.  
-Users can add products, check them as bought, edit or remove them, and view real-time statistics.  
-The app supports emoji-based categories and clean, responsive design with custom CSS variables.
+A simple and elegant shopping list application built with **React**.  
+This project is inspired by Jonas Schmedtmann's course, but the code and structure are fully implemented in **my own way** with custom features and styling.
 
-> ⚒️ This project is based on my own learning experience, inspired by the [Jonas Schmedtmann's React course](https://www.udemy.com/course/the-ultimate-react-course/), and written entirely in my own way.
+## ✨ Features
 
-## 🚀 Features
+- Add new products with name, quantity, and category
+- Category emojis like 🥦, 🍪, 🧽 to visually group items
+- Edit existing products ✏️
+- Mark items as bought ✅ or to-buy
+- Filter products:
+  - All
+  - Bought
+  - To Buy
+- Real-time search 🔍
+- Clear all products 🧹
+- Smooth UX with form toggling
+- **Responsive design** (mobile & desktop)
+- Modern, minimalistic dark theme using CSS variables
 
-- ✅ Add new products with quantity and category (with emoji)
-- 🖊️ Edit existing products
-- 🗑️ Delete individual products
-- ☑️ Mark items as bought / unbought
-- 📊 Stats showing how many items are bought
-- 🧹 Clear entire list
-- 💾 All logic managed using `useState`, no external libraries
+## 🚀 Live Demo
 
-## 📂 Tech Stack
+🔗 [Try it now on Vercel](https://shop-list-pawel1022.vercel.app/)
 
-- React (Functional Components + Hooks)
-- Custom CSS with CSS variables
-- Mobile-first responsive design
+## 🧠 Tech Stack
 
-## 📸 Preview
+- **React** (Hooks: `useState`)
+- **Pure CSS** (Dark Theme with CSS Variables)
+- Functional, component-based structure
+- No external libraries
 
-[Live Demo](https://shop-list-one.vercel.app/)
+## 🗂️ Project Structure
 
-## 🧠 Learning Goals
+src/ ├── components/ │ ├── Header.js │ ├── ShopList.js │ ├── ProductItem.js │ ├── AddProductForm.js │ ├── Stats.js │ └── Browser.js ├── App.js ├── index.js └── index.css
 
-- Managing state with `useState`
-- Handling forms in React
-- Controlled inputs
-- Component composition
-- Dynamic rendering of lists
-- Updating state immutably
+## 📦 Installation
 
-## 📌 To Do
+```bash
+git clone https://github.com/Pawel1022/shop-list
+cd shop-list
+npm install
+npm start
 
-- [ ] Filter by bought/to buy
-- [ ] Search products
-- [ ] Local storage for persistence
+```
 
----
+🙋‍♂️ Author
 
-Made with ❤️ by Paweł Woźniak
+Developed by Paweł Woźniak
+🧠 Based on [The Ultimate React Course](https://www.udemy.com/course/the-ultimate-react-course/) by Jonas Schmedtmann.
+
+This project is part of my React learning path. Feedback and suggestions are welcome!
