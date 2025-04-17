@@ -30,10 +30,6 @@ This project is inspired by Jonas Schmedtmann's course, but the code and structu
 - Functional, component-based structure
 - No external libraries
 
-## 🗂️ Project Structure
-
-src/ ├── components/ │ ├── Header.js │ ├── ShopList.js │ ├── ProductItem.js │ ├── AddProductForm.js │ ├── Stats.js │ └── Browser.js ├── App.js ├── index.js └── index.css
-
 ## 📦 Installation
 
 ```bash
