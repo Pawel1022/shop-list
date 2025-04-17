@@ -32,6 +32,7 @@ export default function App() {
 	const [products, SetProducts] = useState(initalProducts)
 	const [formIsOpen, SetFormIsOpen] = useState(false)
 	const [editingProduct, SetEditingProduct] = useState(null)
+	const [filter, setFilter] = useState('all')
 
 	function toggleForm() {
 		SetFormIsOpen(!formIsOpen)
@@ -69,7 +70,7 @@ export default function App() {
 			<Header> 🛒 SHOP LIST </Header>
 			<div className='control'>
 				<Button onClick={toggleForm}>{formIsOpen ? 'Close ❌' : 'Add new item ➕'}</Button>
-				<Browser />
+				<Browser onSetFilter={setFilter} />
 			</div>
 			{formIsOpen && (
 				<AddProductForm
@@ -86,6 +87,7 @@ export default function App() {
 				onToggleBought={toggleBought}
 				onSetEditingProduct={SetEditingProduct}
 				onToggleForm={toggleForm}
+				onFilter={filter}
 			/>
 			<Stats products={products} onClearList={clearList} />
 		</div>
@@ -180,11 +182,18 @@ function Button({ children, onClick, className }) {
 	)
 }
 
-function ShopList({ products, onDeleteProduct, onToggleBought, onSetEditingProduct, onToggleForm }) {
+function ShopList({ products, onDeleteProduct, onToggleBought, onSetEditingProduct, onToggleForm, onFilter }) {
+	const sortedProducts =
+		onFilter === 'all'
+			? products
+			: onFilter === 'bought'
+			? products.filter(product => product.bought)
+			: products.filter(product => !product.bought)
+
 	return (
 		<div>
 			<ul>
-				{products.map(product => (
+				{sortedProducts.map(product => (
 					<ProductItem
 						product={product}
 						onDeleteProduct={onDeleteProduct}
@@ -225,7 +234,7 @@ function ProductItem({ product, onDeleteProduct, onToggleBought, onSetEditingPro
 	)
 }
 
-function Browser() {
+function Browser({ onSetFilter }) {
 	return (
 		<>
 			<div className='control'>
@@ -234,10 +243,10 @@ function Browser() {
 			</div>
 			<div className='control'>
 				<h2>Filter 📁</h2>
-				<select>
+				<select onChange={e => onSetFilter(e.target.value)}>
 					<option value='all'>All</option>
 					<option value='bought'>🛒 Bought</option>
-					<option value='tobuy'>✘</option>
+					<option value='tobuy'>💰 To buy</option>
 				</select>
 			</div>
 		</>
