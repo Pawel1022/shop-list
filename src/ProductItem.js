@@ -7,6 +7,7 @@ export function ProductItem({ product, onDeleteProduct, onToggleBought, onSetEdi
 			<span>{product.name}</span>
 			<span>x{product.quantity}</span>
 			<input
+				className='checkbox'
 				type='checkbox'
 				onChange={() => {
 					onToggleBought(product.id)
