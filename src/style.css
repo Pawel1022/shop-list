@@ -45,10 +45,12 @@ body {
 }
 
 .App {
+	min-width: 100vw;
 	max-width: 120rem;
 	margin: 0 auto;
 	display: grid;
 	gap: 2rem;
+	padding: 2rem;
 }
 
 header {
