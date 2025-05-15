@@ -7,8 +7,10 @@ import { Browser } from './Browser'
 import { Stats } from './Stats'
 import { initalProducts } from './initalProducts'
 
+import { useLocalStorageStateHook } from './hooks/useLocalStorageHook'
+
 export default function App() {
-	const [products, SetProducts] = useState(initalProducts)
+	const [products, SetProducts] = useLocalStorageStateHook([...initalProducts], 'products')
 	const [formIsOpen, SetFormIsOpen] = useState(false)
 	const [editingProduct, SetEditingProduct] = useState(null)
 	const [filter, SetFilter] = useState('all')
